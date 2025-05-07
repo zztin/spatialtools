@@ -27,32 +27,22 @@ for file in transcripts_*.csv.gz; do
     # Extract SAMPLE name by removing prefix and suffix
     SAMPLE=$(basename "$file" .csv.gz | sed 's/^transcripts_//')
 
-    echo "Processing $SAMPLE..."
+    LOGFILE="${OUTPUT_DIR}/${SAMPLE}.log"
+
+    echo "[$(date)] Processing $SAMPLE..." | tee "$LOGFILE"
 
     proseg --xenium "$file" \
-        --output-expected-counts "${SAMPLE}_expected-counts.csv.gz" \
-        --output-cell-metadata "${SAMPLE}_cell-metadata.csv.gz" \
-        --output-transcript-metadata "${SAMPLE}_transcript-metadata.csv.gz" \
-        --output-gene-metadata "${SAMPLE}_gene-metadata.csv.gz" \
-        --output-rates "${SAMPLE}_rates.csv.gz" \
-        --output-cell-polygons "${SAMPLE}_cell-polygons.geojson.gz" \
-        --output-cell-polygon-layers "${SAMPLE}_cell-polygon-layers.geojson.gz" \
-        --output-union-cell-polygons "${SAMPLE}_union-cell-polygons.geojson.gz"
+        --output-expected-counts "${OUTPUT_DIR}/${SAMPLE}_expected-counts.csv.gz" \
+        --output-cell-metadata "${OUTPUT_DIR}/${SAMPLE}_cell-metadata.csv.gz" \
+        --output-transcript-metadata "${OUTPUT_DIR}/${SAMPLE}_transcript-metadata.csv.gz" \
+        --output-gene-metadata "${OUTPUT_DIR}/${SAMPLE}_gene-metadata.csv.gz" \
+        --output-rates "${OUTPUT_DIR}/${SAMPLE}_rates.csv.gz" \
+        --output-cell-polygons "${OUTPUT_DIR}/${SAMPLE}_cell-polygons.geojson.gz" \
+        --output-cell-polygon-layers "${OUTPUT_DIR}/${SAMPLE}_cell-polygon-layers.geojson.gz" \
+        --output-union-cell-polygons "${OUTPUT_DIR}/${SAMPLE}_union-cell-polygons.geojson.gz"
+        >> "$LOGFILE" 2>&1
 
-#    LOGFILE="${OUTPUT_DIR}/${SAMPLE}.log"
-#
-#    echo "[$(date)] Processing $SAMPLE..." | tee "$LOGFILE"
-#
-#    proseg --xenium "$file" \
-#        --output-expected-counts "${OUTPUT_DIR}/${SAMPLE}_expected-counts.csv.gz" \
-#        --output-cell-metadata "${OUTPUT_DIR}/${SAMPLE}_cell-metadata.csv.gz" \
-#        --output-transcript-metadata "${OUTPUT_DIR}/${SAMPLE}_transcript-metadata.csv.gz" \
-#        --output-gene-metadata "${OUTPUT_DIR}/${SAMPLE}_gene-metadata.csv.gz" \
-#        --output-rates "${OUTPUT_DIR}/${SAMPLE}_rates.csv.gz" \
-#        --output-cell-polygons "${OUTPUT_DIR}/${SAMPLE}_cell-polygons.geojson.gz" \
-#        >> "$LOGFILE" 2>&1
-#
-#    echo "[$(date)] Done with $SAMPLE" | tee -a "$LOGFILE"
+    echo "[$(date)] Done with $SAMPLE" | tee -a "$LOGFILE"
 
 
 done
