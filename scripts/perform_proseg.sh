@@ -11,7 +11,7 @@ OUTPUT_DIR="$1"
 mkdir -p "$OUTPUT_DIR"
 
 # Set input directory (modify if needed)
-INPUT_DIR="/hpc/pmc_holstege/lchen/projects/spatial/data/02_proseg/split_cores"
+INPUT_DIR="/hpc/pmc_holstege/lchen/projects/spatial/data/02_proseg/split_cores/transcripts"
 cd "$INPUT_DIR" || exit 1
 
 
